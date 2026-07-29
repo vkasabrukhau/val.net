@@ -15,5 +15,11 @@ npm run lint
 npm run build
 ```
 
-The site is ready to import into Vercel as a Next.js project.
-# val.net
+## Deploy to Vercel
+
+Import the repository into Vercel and leave the framework preset set to
+**Next.js**. Vercel will use `npm run build`; no environment variables or
+custom Vercel configuration are required.
+
+The project supports Node.js 20.9 or newer. Its display-font stack is local,
+so the production build does not rely on a Google Fonts network request.

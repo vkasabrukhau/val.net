@@ -1,0 +1,47 @@
+.notedTypewriter {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  width: 20ch;
+}
+
+.typeLine {
+  border-right: 2px solid var(--paper);
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation-duration: 4.5s;
+  animation-iteration-count: infinite;
+  animation-name: type-line;
+}
+
+.typeLineOne {
+  --line-width: 11ch;
+  animation-timing-function: steps(11, end);
+}
+
+.typeLineTwo {
+  --line-width: 13ch;
+  animation-timing-function: steps(13, end);
+  color: var(--accent);
+}
+
+.typeLineThree {
+  --line-width: 20ch;
+  animation-timing-function: steps(20, end);
+}
+
+@keyframes type-line {
+  0%, 12% { width: 0; }
+  70%, 86% { width: var(--line-width); }
+  100% { width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typeLine {
+    animation: none;
+    border-right: 0;
+    width: var(--line-width);
+  }
+}

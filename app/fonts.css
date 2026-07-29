@@ -1,0 +1,7 @@
+:root {
+  --font-roboto: Arial, Helvetica, sans-serif;
+  /* Keep the display face entirely local so production builds do not depend on
+     a Google Fonts request. Doto is used when installed on a visitor's system. */
+  --font-doto: Doto, "Arial Black", Impact, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
