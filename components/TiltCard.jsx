@@ -5,6 +5,7 @@ import { useRef } from "react";
 export default function TiltCard({ children, className = "", strength = 5, as: Tag = "div", ...props }) {
   const ref = useRef(null);
   function move(event) {
+    if (event.pointerType !== "mouse") return;
     const element = ref.current;
     const box = element.getBoundingClientRect();
     const x = event.clientX / box.width - box.left / box.width - 0.5;

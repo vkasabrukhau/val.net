@@ -12,4 +12,57 @@
 
 .arrow-icon{display:inline-block;width:1em;height:1em;margin-left:.3em;vertical-align:-.12em;background-color:currentColor;mask:var(--arrow-icon) center/contain no-repeat;-webkit-mask:var(--arrow-icon) center/contain no-repeat;transform:rotate(var(--arrow-rotation,0deg));transform-origin:center}.arrow-icon--external{--arrow-rotation:-45deg}.arrow-icon--back{--arrow-rotation:180deg;margin-left:0;margin-right:.3em}.home-card .arrow{width:28px;height:28px;margin-top:auto}.more-repos-arrow{width:24px;height:24px;margin-left:20px}
 .github-icon{display:inline-block;width:1em;height:1em;margin-left:.35em;vertical-align:-.12em;background-color:currentColor;mask:var(--github-icon) center/contain no-repeat;-webkit-mask:var(--github-icon) center/contain no-repeat}.more-repos-github{width:24px;height:24px;margin-left:20px}
-.job{grid-template-columns:190px 1fr}.post-meta{gap:0}
+@media(min-width:801px){.job{grid-template-columns:190px 1fr}}.post-meta{gap:0}
+
+/* ---- Mobile width lockdown ---- */
+html,body{max-width:100%;overflow-x:hidden}
+.site-shell{width:100%;max-width:100%;overflow-x:clip}
+h1,h2,h3,p,span,div,a,li{overflow-wrap:anywhere;word-break:normal}
+.job,.job>*,.job-main,.home-card,.research-card,.research-body,.project,.project-body,.post-card,.post-card>*,.photo-frame,.article,.more-repos{min-width:0}
+img,svg,video{max-width:100%}
+
+@media(max-width:800px){
+  .job{grid-template-columns:minmax(0,1fr);gap:14px;padding:24px 22px}
+  .job>div:first-child{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .job-years{font-size:24px}
+  .job-place{margin-top:0}
+  .job-main{transform:none}
+  .job h2{font-size:22px;line-height:1.25}
+  .job-role{font-size:15px;margin-bottom:10px}
+  .job p{font-size:14.5px;max-width:100%}
+  .page-title{font-size:clamp(32px,8.5vw,48px)}
+  .page-intro{max-width:100%;font-size:16px}
+  .home-title{font-size:clamp(38px,10vw,56px)}
+  .home-card h2{font-size:26px}
+  .research-body{padding:24px 22px 26px}
+  .research-body h2{font-size:24px}
+  .research-art{height:170px}
+  .art-label,.dark .art-label{font-size:44px}
+  .project-body{padding:26px 22px}
+  .project h2{font-size:clamp(34px,11vw,46px)}
+  .project-art-label{font-size:20px}
+  .project.reverse .project-art-label{font-size:46px}
+  .more-repos{flex-wrap:wrap;gap:14px;padding:22px 24px;font-size:15px}
+  .research-note>div{padding:22px 24px}
+  .post-card h2{max-width:100%}
+  .post-card p{max-width:100%}
+  .article{width:100%;padding:32px 24px 48px}
+  .article-content{font-size:16.5px}
+  .article-content blockquote{padding:16px 18px;font-size:18px;margin:24px 0}
+  .article-thanks{flex-wrap:wrap;gap:12px;padding:18px 20px}
+  .site-footer{padding:28px 24px}
+  .tilt-card{transform:none!important;box-shadow:none!important}
+}
+
+@media(max-width:420px){
+  .site-nav{padding:14px 12px}
+  .page-header{padding:30px 18px}
+  .jobs,.projects,.home-cards,.research-grid,.photos-grid{padding-left:18px;padding-right:18px}
+  .research-note{padding:0 18px 30px}
+  .job{padding:20px 18px}
+  .home-hero{padding:100px 18px 40px}
+  .site-footer{padding:26px 18px;gap:12px}
+  .article{padding-left:18px;padding-right:18px}
+  .button{padding:11px 20px;font-size:14px}
+  .button-secondary{padding:10px 20px}
+}
