@@ -15,6 +15,7 @@ export function Nav({ active }) {
 
 export function Footer() {
   return <footer className="site-footer">
+    <span>Val (Valiantsin) Kasabrukhau</span>
     <a href="mailto:vk135@duke.edu">vk135@duke.edu</a><a href="mailto:vkasabrukhau@gmail.com">vkasabrukhau@gmail.com</a>
     <a href="https://www.linkedin.com/in/valiantsin-kasabrukhau/" target="_blank" rel="noreferrer">linkedin <ArrowIcon direction="external" /></a>
     <a href="https://github.com/vkasabrukhau" target="_blank" rel="noreferrer">github <GithubIcon /></a>

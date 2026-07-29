@@ -2,6 +2,13 @@ import { Page } from "../../components/SiteChrome";
 import TiltCard from "../../components/TiltCard";
 import GithubIcon from "../../components/GithubIcon";
 import styles from "./page.module.css";
+import { pageMetadata } from "../site";
+
+export const metadata = pageMetadata({
+  title: "Projects",
+  description: "Things Val Kasabrukhau is building — Noted, a social note-taking platform for students, Healthly, and other late-night side projects.",
+  path: "/projects",
+});
 
 export default function Projects() {
   return <Page active="projects">

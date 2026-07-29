@@ -1,5 +1,12 @@
 import { Page } from "../../components/SiteChrome";
 import TiltCard from "../../components/TiltCard";
+import { pageMetadata } from "../site";
+
+export const metadata = pageMetadata({
+  title: "Experience",
+  description: "Where Val Kasabrukhau has worked — software engineering at Travelers, XR research at the Duke I3T Lab, Duke Applied Machine Learning, and the Nicholas Institute.",
+  path: "/experience",
+});
 
 const jobs = [
   ["2025→", "DURHAM, NC", "Duke I3T Lab", "Undergraduate Researcher · XR", "RESEARCH", "Building mixed-reality experiences at the Intelligent Interactive Internet of Things Lab with Dr. Maria Gorlatova. The headsets are heavy; the ideas are not.", true],

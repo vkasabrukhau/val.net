@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { Page } from "../../components/SiteChrome";
 import TiltCard from "../../components/TiltCard";
+import { pageMetadata } from "../site";
+
+export const metadata = pageMetadata({
+  title: "Writing",
+  description: "Essays and half-theories by Val Kasabrukhau on XR, nuclear energy, Soviet engineering culture, and the tools we build with.",
+  path: "/writing",
+});
 
 const posts = [
   { title: "Why every headset demo starts with a whale", copy: "On XR demos, wonder as a design requirement, and why the ocean keeps showing up indoors.", time: "4 MIN", type: "thought" },
