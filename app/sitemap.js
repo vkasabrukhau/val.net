@@ -7,6 +7,7 @@ const routes = [
   ["/projects", 0.9],
   ["/writing", 0.8],
   ["/photos", 0.6],
+  ["/recs", 0.6],
   ["/writing/whale", 0.5],
 ];
 

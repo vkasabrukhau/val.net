@@ -32,6 +32,42 @@
   animation-timing-function: steps(20, end);
 }
 
+.repoButton {
+  align-items: center;
+  align-self: flex-start;
+  background: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  color: var(--paper);
+  display: inline-flex;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 700;
+  gap: 6px;
+  letter-spacing: .1em;
+  margin-top: auto;
+  padding: 12px 17px;
+  text-transform: uppercase;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+.repoButton :global(.github-icon) {
+  font-size: 16px;
+  margin-left: 0;
+}
+
+.repoButton:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.repoButton:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
 @keyframes type-line {
   0%, 12% { width: 0; }
   70%, 86% { width: var(--line-width); }
