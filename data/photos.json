@@ -1,0 +1,8 @@
+[
+  { "src": "/uploads/_ (1).jpeg", "label": "no.01", "source": "Fujifilm X-M5", "date": "2026-03-14", "width": 736, "height": 977, "rotation": -2.4 },
+  { "src": "/uploads/_ (2).jpeg", "label": "no.02", "source": "Digital Art", "date": "2026-01-22", "width": 736, "height": 977, "rotation": 1.8 },
+  { "src": "/uploads/_ (3).jpeg", "label": "no.03", "source": "Fujifilm X-M5", "date": "2025-11-02", "width": 626, "height": 340, "rotation": -1.2 },
+  { "src": "/uploads/_ (4).jpeg", "label": "no.04", "source": "Drawings", "date": "2026-05-08", "width": 695, "height": 407, "rotation": 2.6 },
+  { "src": "/uploads/_ (5).jpeg", "label": "no.05", "source": "iPhone", "date": "2026-06-19", "width": 650, "height": 350, "rotation": -2 },
+  { "src": "/uploads/_.jpeg", "label": "no.06", "source": "iPhone", "date": "2025-12-27", "width": 736, "height": 1313, "rotation": 1.4 }
+]

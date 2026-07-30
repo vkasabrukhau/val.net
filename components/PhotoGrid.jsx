@@ -1,49 +1,70 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import photos from "../data/photos.json";
 
-const frames = [
-  ["no.01", "35MM · —", -2.4], ["no.02", "DIGITAL · —", 1.8], ["no.03", "35MM · —", -1.2],
-  ["no.04", "DIGITAL · —", 2.6], ["no.05", "IPHONE · —", -2], ["no.06", "35MM · —", 1.4],
+const SOURCES = ["All", "iPhone", "Fujifilm X-M5", "Digital Art", "Drawings"];
+
+const SORTS = [
+  { key: "latest", label: "Latest" },
+  { key: "earliest", label: "Earliest" },
+  { key: "res-desc", label: "Highest res" },
+  { key: "res-asc", label: "Lowest res" },
 ];
+
+const COMPARATORS = {
+  latest: (a, b) => new Date(b.date) - new Date(a.date),
+  earliest: (a, b) => new Date(a.date) - new Date(b.date),
+  "res-desc": (a, b) => b.width * b.height - a.width * a.height,
+  "res-asc": (a, b) => a.width * a.height - b.width * b.height,
+};
+
+function caption(photo) {
+  const date = new Date(`${photo.date}T00:00:00`)
+    .toLocaleDateString("en-US", { month: "short", year: "numeric" })
+    .toUpperCase();
+  return `${photo.source.toUpperCase()} · ${date}`;
+}
+
 export default function PhotoGrid() {
-  const [images, setImages] = useState({});
-  const imagesRef = useRef({});
-  const pendingUploads = useRef({});
+  const [source, setSource] = useState("All");
+  const [sort, setSort] = useState("latest");
 
-  useEffect(() => {
-    imagesRef.current = images;
-  }, [images]);
+  const visible = (source === "All" ? photos : photos.filter(p => p.source === source))
+    .toSorted(COMPARATORS[sort]);
 
-  useEffect(() => () => {
-    Object.values(imagesRef.current).forEach(({ src }) => URL.revokeObjectURL(src));
-  }, []);
-
-  function select(index, file) {
-    if (!file?.type.startsWith("image/")) return;
-
-    const src = URL.createObjectURL(file);
-    const upload = Symbol();
-    pendingUploads.current[index] = upload;
-    const image = new Image();
-
-    image.onload = () => {
-      if (pendingUploads.current[index] !== upload) {
-        URL.revokeObjectURL(src);
-        return;
-      }
-
-      setImages(current => {
-        if (current[index]) URL.revokeObjectURL(current[index].src);
-        return { ...current, [index]: { src, aspectRatio: `${image.naturalWidth} / ${image.naturalHeight}` } };
-      });
-    };
-    image.onerror = () => URL.revokeObjectURL(src);
-    image.src = src;
-  }
-
-  return <section className="photos-grid">{frames.map(([label, meta, rotation], index) => {
-    const photo = images[index];
-    return <div className="photo-frame" style={{ transform: `rotate(${rotation}deg)`, "--photo-aspect-ratio": photo?.aspectRatio }} key={label}><label className="photo-slot">{photo ? <img src={photo.src} alt={`Uploaded ${label} photograph`} /> : <span>drop photo {String(index + 1).padStart(2, "0")}</span>}<input aria-label={`Upload ${label} photograph`} type="file" accept="image/*" onChange={event => select(index, event.target.files?.[0])} /></label><div className="photo-caption"><b>{label}</b><small>{meta}</small></div></div>;
-  })}</section>;
+  return <>
+    <div className="photos-controls">
+      <label className="photos-select">
+        <span className="photos-select-label">filter</span>
+        <select aria-label="Filter photos by source" value={source} onChange={e => setSource(e.target.value)}>
+          {SOURCES.map(s => (
+            <option key={s} value={s}>
+              {s} ({s === "All" ? photos.length : photos.filter(p => p.source === s).length})
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="photos-select">
+        <span className="photos-select-label">sort</span>
+        <select aria-label="Sort photos" value={sort} onChange={e => setSort(e.target.value)}>
+          {SORTS.map(({ key, label }) => <option key={key} value={key}>{label}</option>)}
+        </select>
+      </label>
+    </div>
+    {visible.length === 0
+      ? <p className="photos-empty">nothing here yet.</p>
+      : <section className="photos-grid">{visible.map(photo => (
+          <div
+            className="photo-frame"
+            style={{ transform: `rotate(${photo.rotation ?? 0}deg)` }}
+            key={photo.label}
+          >
+            <div className="photo-slot">
+              <img src={photo.src} alt={`${photo.label} photograph`} width={photo.width} height={photo.height} loading="lazy" />
+            </div>
+            <div className="photo-caption"><b>{photo.label}</b><small>{caption(photo)}</small></div>
+          </div>
+        ))}</section>}
+  </>;
 }

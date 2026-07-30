@@ -1,34 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import shoes from "../data/shoes.json";
 
 const BOX_WIDTH = 320;
 const BOX_HEIGHT = 145;
 const BOX_COLUMN_GAP = 28;
 const BOX_ROW_GAP = 64;
 
-const shoes = [
-  { brand: "Nike", brandKey: "nike", tag: "daily", name: "Everyday sneaker", blurb: "The pair I reach for without thinking. Comfortable at hour ten, looks fine with everything.", meta: "OWNED · 2 YRS" },
-  { brand: "Adidas", brandKey: "adidas", tag: "court", name: "Court pair", blurb: "Pickup games and pickleball alike. Grippy enough to embarrass someone.", meta: "INDOOR ONLY" },
-  { brand: "Yeezy", brandKey: "yeezy", tag: "recovery", name: "Post-run slides", blurb: "Ugly on purpose. The first thing on after any long run, and I will not be shamed.", meta: "WORTH IT" },
-  { brand: "ACG", brandKey: "acg", tag: "trail", name: "Off-road pair", blurb: "Mud, roots, questionable shortcuts. Grips everything, apologizes for nothing.", meta: "3 NATIONAL PARKS" },
-  { brand: "Nike", brandKey: "nike", tag: "running", name: "Go-to runner", blurb: "Cushioned enough for long miles, light enough that I don't blame the shoes.", meta: "~400 MI" },
-  { brand: "Adidas", brandKey: "adidas", tag: "indoor", name: "Indoor trainer", blurb: "Stable, quick, and made for the kind of session that runs longer than planned.", meta: "WEEKLY ROTATION" },
-  { brand: "Yeezy", brandKey: "yeezy", tag: "foam", name: "Foam runner", blurb: "The answer for errand days when laces feel like an unnecessary negotiation.", meta: "EASY ON" },
-  { brand: "ACG", brandKey: "acg", tag: "hike", name: "Hiking shoe", blurb: "A dependable companion for long trails, loose rock, and bad map decisions.", meta: "ALL TERRAIN" },
-  { brand: "Nike", brandKey: "nike", tag: "retro", name: "Retro pick", blurb: "Older than some of my classmates. Still the best-looking thing on this shelf.", meta: "CLASSIC" },
-  { brand: "Adidas", brandKey: "adidas", tag: "terrace", name: "Terrace classic", blurb: "Clean enough for dinner, durable enough for a day that wanders everywhere.", meta: "OFF-DUTY" },
-  { brand: "Yeezy", brandKey: "yeezy", tag: "winter", name: "Winter boot", blurb: "Waterproof, warm, and immune to salt stains. Built for a proper cold snap.", meta: "SNOW READY" },
-  { brand: "ACG", brandKey: "acg", tag: "weather", name: "All-weather boot", blurb: "For when the forecast looks hostile but the plan still sounds worth it.", meta: "RAIN OR SHINE" },
-  { brand: "Nike", brandKey: "nike", tag: "gym", name: "Lifting shoe", blurb: "Flat, stable, zero bounce. Squats feel honest in these.", meta: "LEG DAY ONLY" },
-  { brand: "Adidas", brandKey: "adidas", tag: "travel", name: "Airport slip-on", blurb: "Through security in four seconds. Comfort over dignity, always.", meta: "TSA APPROVED" },
-  { brand: "Yeezy", brandKey: "yeezy", tag: "grail", name: "The grail pair", blurb: "Too clean to wear, too good to sell. They live on the shelf and judge the others.", meta: "0 WEARS · NO REGRETS" },
-  { brand: "ACG", brandKey: "acg", tag: "camp", name: "Camp mule", blurb: "Easy around the campsite and forgiving after a day spent on your feet.", meta: "PACK LIGHT" },
-  { brand: "Nike", brandKey: "nike", tag: "beater", name: "The beaters", blurb: "Lawn mowing, painting, rain errands. Every good rotation needs a sacrifice.", meta: "BEYOND SAVING" },
-  { brand: "Adidas", brandKey: "adidas", tag: "nice-ish", name: "Dress-adjacent pick", blurb: "The one pair that survives weddings, interviews, and airport sprints alike.", meta: "BUY ONCE" },
-  { brand: "Yeezy", brandKey: "yeezy", tag: "lounge", name: "Lounge pair", blurb: "Soft, understated, and reserved for a quiet weekend with nowhere to be.", meta: "SUNDAY ONLY" },
-  { brand: "ACG", brandKey: "acg", tag: "ridge", name: "Ridge runner", blurb: "Light enough to move quickly, rugged enough for whatever the path becomes.", meta: "OUTSIDE" },
-];
+const CATEGORIES = ["All", "Running", "Hiking", "Casual", "Fashion"];
 
 const TILT = -7;
 
@@ -46,12 +26,15 @@ function BrandMark({ brandKey, brand }) {
 
 export default function ShoeCloset() {
   const [active, setActive] = useState(0);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [category, setCategory] = useState("All");
   const stageRef = useRef(null);
   const sizerRef = useRef(null);
   const shelfRef = useRef(null);
   const scaleRef = useRef(1);
   const reducedRef = useRef(false);
+
+  const visible = category === "All" ? shoes : shoes.filter(s => s.category === category);
 
   useEffect(() => {
     reducedRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -75,14 +58,14 @@ export default function ShoeCloset() {
       }
 
       scaleRef.current = scale;
-      const rows = Math.ceil(shoes.length / columns);
+      const rows = Math.ceil(visible.length / columns);
       sizer.style.height = `${Math.round((rows * BOX_HEIGHT + (rows - 1) * BOX_ROW_GAP + 106) * scale)}px`;
     };
 
     fit();
     window.addEventListener("resize", fit);
     return () => window.removeEventListener("resize", fit);
-  }, []);
+  }, [visible.length]);
 
   function parallax(event) {
     const stage = stageRef.current;
@@ -99,11 +82,6 @@ export default function ShoeCloset() {
     if (shelf) shelf.style.transform = `scale(${scaleRef.current}) rotateX(${TILT}deg)`;
   }
 
-  function go(delta) {
-    setActive(current => (current + delta + shoes.length) % shoes.length);
-    setOpen(true);
-  }
-
   function pick(index) {
     if (index === active) setOpen(current => !current);
     else {
@@ -112,14 +90,32 @@ export default function ShoeCloset() {
     }
   }
 
-  const shoe = shoes[active];
+  function pickCategory(next) {
+    if (next === category) return;
+    setCategory(next);
+    setActive(0);
+    setOpen(false);
+  }
 
   return <>
+    <nav className="recs-filter" aria-label="Shoe categories">
+      {CATEGORIES.map(c => (
+        <button
+          key={c}
+          type="button"
+          className={c === category ? "is-active" : ""}
+          aria-pressed={c === category}
+          onClick={() => pickCategory(c)}
+        >
+          {c}
+          <span>{c === "All" ? shoes.length : shoes.filter(s => s.category === c).length}</span>
+        </button>
+      ))}
+    </nav>
     <div className="recs-stage" ref={stageRef} onMouseMove={parallax} onMouseLeave={unparallax}>
-      <div className="recs-floor" />
       <div className="recs-sizer" ref={sizerRef}>
         <div className="recs-shelf" ref={shelfRef}>
-          {shoes.map((s, index) => {
+          {visible.map((s, index) => {
             const isOpen = index === active && open;
             return <div
             key={`${s.brandKey}-${s.tag}`}
@@ -151,21 +147,5 @@ export default function ShoeCloset() {
         </div>
       </div>
     </div>
-    <section className="recs-detail"><div>
-      <div className="recs-counter">
-        <b>{String(active + 1).padStart(2, "0")}/{String(shoes.length).padStart(2, "0")}</b>
-        <span>{shoe.brand}</span>
-      </div>
-      <div className="recs-detail-body">
-        <h2>{shoe.name}</h2>
-        <p>{shoe.blurb}</p>
-        <small>{shoe.meta}</small>
-      </div>
-      <div className="recs-detail-nav">
-        <button type="button" aria-label="Previous pair" onClick={() => go(-1)}>←</button>
-        <button type="button" aria-label="Next pair" onClick={() => go(1)}>→</button>
-      </div>
-    </div></section>
-    <p className="recs-note">cars · tech — pulled from the shelf, returning soon</p>
   </>;
 }
