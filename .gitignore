@@ -4,3 +4,10 @@ out/
 .vercel/
 .claude/
 .DS_Store
+
+# raw shoe photos (processed output lives in public/shoes/)
+shoe-photos/*
+!shoe-photos/README.md
+
+# raw originals classified by brand — only processed WebPs at the top level ship
+public/shoes/*/

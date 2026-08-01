@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import photos from "../data/photos.json";
+
+// Approximate frame chrome (padding + caption) as a fraction of column width,
+// so column balancing accounts for it on top of each image's aspect ratio.
+const FRAME_CHROME = 0.18;
 
 const SOURCES = ["All", "iPhone", "Fujifilm X-M5", "Digital Art", "Drawings"];
 
@@ -29,9 +33,27 @@ function caption(photo) {
 export default function PhotoGrid() {
   const [source, setSource] = useState("All");
   const [sort, setSort] = useState("latest");
+  const [columnCount, setColumnCount] = useState(3);
+
+  useEffect(() => {
+    const narrow = window.matchMedia("(max-width: 800px)");
+    const update = () => setColumnCount(narrow.matches ? 1 : 3);
+    update();
+    narrow.addEventListener("change", update);
+    return () => narrow.removeEventListener("change", update);
+  }, []);
 
   const visible = (source === "All" ? photos : photos.filter(p => p.source === source))
     .toSorted(COMPARATORS[sort]);
+
+  // Masonry: drop each photo into the currently-shortest column.
+  const columns = Array.from({ length: columnCount }, () => []);
+  const columnHeights = new Array(columnCount).fill(0);
+  for (const photo of visible) {
+    const shortest = columnHeights.indexOf(Math.min(...columnHeights));
+    columns[shortest].push(photo);
+    columnHeights[shortest] += photo.height / photo.width + FRAME_CHROME;
+  }
 
   return <>
     <div className="photos-controls">
@@ -54,17 +76,19 @@ export default function PhotoGrid() {
     </div>
     {visible.length === 0
       ? <p className="photos-empty">nothing here yet.</p>
-      : <section className="photos-grid">{visible.map(photo => (
-          <div
-            className="photo-frame"
-            style={{ transform: `rotate(${photo.rotation ?? 0}deg)` }}
-            key={photo.label}
-          >
-            <div className="photo-slot">
-              <img src={photo.src} alt={`${photo.label} photograph`} width={photo.width} height={photo.height} loading="lazy" />
+      : <section className="photos-grid">{columns.map((column, index) => (
+          <div className="photos-col" key={index}>{column.map(photo => (
+            <div
+              className="photo-frame"
+              style={{ transform: `rotate(${photo.rotation ?? 0}deg)` }}
+              key={photo.label}
+            >
+              <div className="photo-slot">
+                <img src={photo.src} alt={`${photo.label} photograph`} width={photo.width} height={photo.height} loading="lazy" />
+              </div>
+              <div className="photo-caption"><b>{photo.label}</b><small>{caption(photo)}</small></div>
             </div>
-            <div className="photo-caption"><b>{photo.label}</b><small>{caption(photo)}</small></div>
-          </div>
+          ))}</div>
         ))}</section>}
   </>;
 }
