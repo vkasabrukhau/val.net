@@ -74,10 +74,397 @@
   100% { width: 0; }
 }
 
+/* jarvis — one 4.2s cycle: mirror scans a face, reticle locks, packet crosses
+   the wire to the edge laptop, a reply comes back while the terminal types */
+.jarvisScene {
+  align-items: center;
+  display: flex;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.mirrorFrame {
+  background: linear-gradient(115deg, rgba(251, 250, 243, .14), rgba(251, 250, 243, .02) 45%, rgba(251, 250, 243, .08));
+  border: 1.5px solid rgba(251, 250, 243, .7);
+  border-radius: 16px;
+  height: 138px;
+  overflow: hidden;
+  position: relative;
+  width: 88px;
+}
+
+.silhouette {
+  height: 66px;
+  left: 50%;
+  opacity: 0;
+  position: absolute;
+  top: 28px;
+  transform: translateX(-50%);
+  width: 44px;
+  animation: ghost-in 4.2s ease-in-out infinite;
+}
+
+.silhouette::before {
+  background: rgba(251, 250, 243, .3);
+  border-radius: 50%;
+  content: "";
+  height: 22px;
+  left: 50%;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  width: 22px;
+}
+
+.silhouette::after {
+  background: rgba(251, 250, 243, .3);
+  border-radius: 22px 22px 6px 6px;
+  bottom: 0;
+  content: "";
+  height: 38px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 44px;
+}
+
+.reticle {
+  border: 1px solid var(--accent-a35);
+  border-radius: 10px;
+  inset: 16px 12px;
+  opacity: 0;
+  position: absolute;
+  animation: reticle-in 4.2s ease infinite;
+}
+
+.reticle::before {
+  border-left: 2px solid var(--accent);
+  border-top: 2px solid var(--accent);
+  border-top-left-radius: 10px;
+  content: "";
+  height: 12px;
+  left: -1px;
+  position: absolute;
+  top: -1px;
+  width: 12px;
+}
+
+.reticle::after {
+  border-bottom: 2px solid var(--accent);
+  border-bottom-right-radius: 10px;
+  border-right: 2px solid var(--accent);
+  bottom: -1px;
+  content: "";
+  height: 12px;
+  position: absolute;
+  right: -1px;
+  width: 12px;
+}
+
+.scanline {
+  background: var(--accent);
+  border-radius: 2px;
+  box-shadow: 0 0 14px 3px var(--accent-a35);
+  height: 2px;
+  left: 6px;
+  position: absolute;
+  right: 6px;
+  top: 0;
+  animation: mirror-scan 4.2s ease-in-out infinite;
+}
+
+.scanCheck {
+  bottom: 9px;
+  color: var(--accent);
+  font: 700 13px var(--font-mono), monospace;
+  opacity: 0;
+  position: absolute;
+  right: 11px;
+  animation: check-pop 4.2s cubic-bezier(.34, 1.56, .64, 1) infinite;
+}
+
+.linkPath {
+  border-top: 2px dashed rgba(251, 250, 243, .3);
+  position: relative;
+  width: 86px;
+}
+
+.packet {
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px var(--accent-a35);
+  height: 8px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: -5px;
+  width: 8px;
+  animation: packet-run 4.2s ease-in-out infinite;
+}
+
+.laptop {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.laptopScreen {
+  background: linear-gradient(165deg, #202b29, #101716);
+  border: 1.5px solid rgba(251, 250, 243, .7);
+  border-radius: 8px 8px 3px 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 54px;
+  overflow: hidden;
+  padding: 9px 10px;
+  width: 80px;
+}
+
+.termLine {
+  background: rgba(251, 250, 243, .55);
+  border-radius: 2px;
+  height: 3px;
+  transform-origin: left;
+  animation: term-type 4.2s infinite backwards;
+}
+
+.termLine:nth-child(1) { width: 72%; }
+
+.termLine:nth-child(2) {
+  width: 46%;
+  animation-delay: .7s;
+}
+
+.termLine:nth-child(3) {
+  background: var(--accent);
+  width: 60%;
+  animation-delay: 1.4s;
+}
+
+.cursor {
+  background: rgba(251, 250, 243, .85);
+  border-radius: 1px;
+  height: 3px;
+  width: 7px;
+  animation: cursor-blink 1.05s linear infinite;
+}
+
+.laptopBase {
+  background: rgba(251, 250, 243, .75);
+  border-radius: 2px 2px 7px 7px;
+  height: 6px;
+  margin-top: 2px;
+  width: 104px;
+}
+
+.jarvisLabel {
+  bottom: 26px;
+  position: absolute;
+}
+
+.jarvisAccent {
+  color: var(--accent);
+}
+
+/* brickonomics — bricks fall into a bar chart, a stock line draws across the tops */
+.brickChart {
+  align-items: flex-end;
+  display: flex;
+  gap: 8px;
+  height: 150px;
+  justify-content: center;
+  position: relative;
+  width: 328px;
+}
+
+.brickCol {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 3px;
+  width: 34px;
+}
+
+.brick {
+  background: var(--ink);
+  border-radius: 3px;
+  height: 13px;
+  position: relative;
+  animation: brick-fall 8s infinite backwards;
+  animation-delay: var(--fall-delay, 0s);
+}
+
+.brick::before,
+.brick::after {
+  background: var(--ink);
+  border-radius: 2px 2px 0 0;
+  content: "";
+  height: 4px;
+  position: absolute;
+  top: -4px;
+  width: 8px;
+}
+
+.brick::before { left: 6px; }
+
+.brick::after { right: 6px; }
+
+.stockLine {
+  inset: 0;
+  position: absolute;
+}
+
+.stockLine polyline {
+  fill: none;
+  filter: drop-shadow(0 0 6px rgba(251, 250, 243, .45));
+  stroke: var(--paper);
+  stroke-dasharray: 340;
+  stroke-dashoffset: 340;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+  animation: line-draw 8s linear infinite;
+}
+
+.stockLine circle {
+  fill: var(--paper);
+  opacity: 0;
+  animation: dot-pop 8s linear infinite;
+}
+
+/* "brickonomics" is one character too wide for the shared mobile h2 clamp */
+h2.brickTitle {
+  font-size: clamp(30px, 10vw, 54px);
+}
+
+@keyframes mirror-scan {
+  0% { opacity: 0; transform: translateY(8px); }
+  5% { opacity: 1; }
+  40% { opacity: 1; transform: translateY(124px); }
+  46%, 100% { opacity: 0; transform: translateY(124px); }
+}
+
+@keyframes ghost-in {
+  0%, 12% { opacity: 0; }
+  40%, 82% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
+
+@keyframes reticle-in {
+  0%, 38% { opacity: 0; transform: scale(1.12); }
+  48% { opacity: 1; transform: scale(1); }
+  84% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
+
+@keyframes check-pop {
+  0%, 52% { opacity: 0; transform: scale(.4); }
+  58% { opacity: 1; transform: scale(1.15); }
+  62% { transform: scale(1); }
+  84% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
+
+@keyframes packet-run {
+  0%, 50% { background: var(--accent); opacity: 0; transform: translateX(0); }
+  53% { opacity: 1; }
+  65% { background: var(--accent); opacity: 1; transform: translateX(78px); }
+  67% { opacity: 0; }
+  70% { background: var(--paper); opacity: 0; transform: translateX(78px); }
+  73% { opacity: 1; }
+  85% { background: var(--paper); opacity: 1; transform: translateX(0); }
+  88%, 100% { opacity: 0; transform: translateX(0); }
+}
+
+@keyframes term-type {
+  0%, 6% { transform: scaleX(0); animation-timing-function: steps(6, end); }
+  20%, 100% { transform: scaleX(1); }
+}
+
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes brick-fall {
+  0% { opacity: 0; transform: translateY(-170px); animation-timing-function: cubic-bezier(.45, 0, .85, .55); }
+  1% { opacity: 1; }
+  6% { transform: translateY(0); animation-timing-function: ease-out; }
+  7.5% { transform: translateY(-5px); animation-timing-function: ease-in; }
+  9% { transform: translateY(0); }
+  40% { opacity: 1; }
+  52% { opacity: .55; }
+  93% { opacity: .55; transform: translateY(0); }
+  98%, 100% { opacity: 0; }
+}
+
+@keyframes line-draw {
+  0%, 36% { opacity: 1; stroke-dashoffset: 340; animation-timing-function: cubic-bezier(.4, 0, .2, 1); }
+  62% { stroke-dashoffset: 0; }
+  93% { opacity: 1; stroke-dashoffset: 0; }
+  98%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+
+@keyframes dot-pop {
+  0%, 58% { opacity: 0; }
+  63%, 93% { opacity: 1; }
+  98%, 100% { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .typeLine {
     animation: none;
     border-right: 0;
     width: var(--line-width);
+  }
+
+  .scanline {
+    animation: none;
+    opacity: 0;
+  }
+
+  .silhouette {
+    animation: none;
+    opacity: 1;
+  }
+
+  .reticle {
+    animation: none;
+    opacity: 1;
+  }
+
+  .scanCheck {
+    animation: none;
+    opacity: 1;
+  }
+
+  .packet {
+    animation: none;
+    opacity: 1;
+    transform: translateX(39px);
+  }
+
+  .termLine {
+    animation: none;
+  }
+
+  .cursor {
+    animation: none;
+  }
+
+  .brick {
+    animation: none;
+    opacity: 1;
+  }
+
+  .stockLine polyline {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .stockLine circle {
+    animation: none;
+    opacity: 1;
   }
 }
