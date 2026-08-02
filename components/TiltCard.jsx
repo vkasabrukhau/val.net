@@ -15,7 +15,7 @@ export default function TiltCard({ children, className = "", strength = 5, as: T
   }
   function leave() {
     ref.current.style.transform = "perspective(1400px) rotateY(0) rotateX(0) translateZ(0)";
-    ref.current.style.boxShadow = "none";
+    ref.current.style.boxShadow = "";
   }
   return <Tag ref={ref} className={`tilt-card ${className}`} onPointerMove={move} onPointerLeave={leave} {...props}>{children}</Tag>;
 }
