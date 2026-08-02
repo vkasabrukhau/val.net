@@ -82,12 +82,17 @@ img,svg,video{max-width:100%}
 .recs-filter button:hover,.recs-filter button.is-active{background:var(--ink);color:var(--paper)}
 .recs-filter button:hover span,.recs-filter button.is-active span{color:var(--accent)}
 .recs-filter button:focus-visible{outline:3px solid var(--accent-a35);outline-offset:3px}
-.recs-stage{position:relative;display:flex;justify-content:center;padding:82px 24px 64px;perspective:1800px;perspective-origin:50% 38%;animation:fade-up .9s cubic-bezier(.16,1,.3,1) .2s both}
-.recs-sizer{display:flex;justify-content:center;align-items:flex-start}
+.recs-stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 0px;padding:82px 24px 64px;perspective:1800px;perspective-origin:50% 38%;transition:grid-template-columns .6s cubic-bezier(.22,1,.36,1),perspective-origin .6s cubic-bezier(.22,1,.36,1);animation:fade-up .9s cubic-bezier(.16,1,.3,1) .2s both}
+.recs-stage--split{grid-template-columns:minmax(0,1fr) 560px;perspective-origin:32% 38%;padding-top:48px}
+.recs-sizer{display:flex;justify-content:center;align-items:flex-start;transition:height .6s cubic-bezier(.22,1,.36,1)}
 .recs-shelf{display:grid;grid-template-columns:repeat(4,320px);gap:64px 28px;transform-style:preserve-3d;transform-origin:50% 0;transform:rotateX(-15deg);transition:transform .4s ease-out;pointer-events:none}
-.recs-box{--box-color:#fff;--box-edge:rgba(14,20,20,.2);--box-yaw:0deg;position:relative;width:320px;height:145px;transform-style:preserve-3d;transform:rotateY(var(--box-yaw));transition:transform .5s cubic-bezier(.34,1.3,.64,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.recs-box{--box-color:#fff;--box-edge:rgba(14,20,20,.2);--box-yaw:0deg;position:relative;width:320px;height:145px;transform-style:preserve-3d;transform:translate(var(--fx,0px),var(--fy,0px)) rotateY(var(--box-yaw));transition:transform .5s cubic-bezier(.34,1.3,.64,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.recs-box--teleport{transition:none!important}
 .recs-box--nike{--box-color:#EA553B;--box-edge:rgba(103,29,19,.42)}
 .recs-box--adidas{--box-color:#fff;--box-edge:rgba(14,20,20,.2)}
+/* Trefoil-blue stripes across the lid; kept left of the size label, which
+   occupies the right ~110px of the lid plane. */
+.recs-box--adidas .recs-lid--top{background-image:url(/assets/adidasstripes.png);background-repeat:no-repeat;background-size:auto 176px;background-position:26px 50%}
 .recs-box--yeezy{--box-color:#C6A77E;--box-edge:rgba(97,70,42,.5);--kraft-noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E")}
 .recs-box--yeezy .recs-face,.recs-box--yeezy .recs-front{background-image:var(--kraft-noise),repeating-linear-gradient(180deg,rgba(112,80,48,.07) 0 2px,rgba(0,0,0,0) 2px 9px)}
 .recs-box--yeezy .recs-face::after,.recs-box--yeezy .recs-front::after{background:#D4B78E var(--kraft-noise)}
@@ -114,7 +119,10 @@ img,svg,video{max-width:100%}
 .recs-lid--top{left:0;top:-37.5px;width:320px;height:220px;transform:rotateX(90deg) translateZ(72.5px)}
 .recs-lid--bottom{left:0;top:-37.5px;width:320px;height:220px;transform:rotateX(-90deg) translateZ(72.5px)}
 .recs-front{inset:0;transform:translateZ(110px);transform-origin:50% 0;transition:transform .55s cubic-bezier(.34,1.3,.64,1);display:grid;place-items:center;box-shadow:0 12px 24px rgba(14,20,20,.08)}
-.recs-box--active{transform:translateZ(54px) rotateY(var(--box-yaw))}
+.recs-box--active .recs-box-inner{transform:translateZ(54px)}
+.recs-box--active.is-hover .recs-box-inner{transform:translateZ(68px)}
+.recs-box--featured{grid-column:1/-1;justify-self:center;order:-1;margin:56px 0 120px}
+.recs-box--featured .recs-box-inner,.recs-box--featured.is-hover .recs-box-inner{transform:translateZ(54px) scale3d(1.4,1.4,1.4)}
 .recs-box--open .recs-front{transform:translateZ(110px) rotateX(132deg)}
 .recs-box--active .recs-front{border-color:var(--box-edge);box-shadow:0 22px 40px rgba(14,20,20,.18)}
 .recs-brand-mark{display:block;max-width:66%;max-height:62%;object-fit:contain;user-select:none;pointer-events:none}
@@ -126,8 +134,46 @@ img,svg,video{max-width:100%}
 .recs-brand-mark--salomon{width:196px;max-height:none;mix-blend-mode:screen}
 .recs-brand-mark--birkenstock{width:200px;max-height:none;mix-blend-mode:multiply}
 .recs-brand-mark--blazer{position:absolute;left:14px;bottom:12px;width:65px}
-@media(max-width:800px){.recs-header{padding:38px 24px 4px}.recs-stage{padding:54px 12px 44px}}
-@media(prefers-reduced-motion:reduce){.recs-box,.recs-box-inner,.recs-front,.recs-shelf,.recs-shoe{transition:none}}
+.recs-info{min-width:0;pointer-events:none}
+.recs-stage--split .recs-info{pointer-events:auto}
+.recs-info-card{position:sticky;top:28px;width:520px;margin-left:40px;background:#fff;border:1.5px solid var(--ink);border-radius:26px;padding:24px 28px 26px;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s .3s}
+.recs-stage--split .recs-info-card{opacity:1;visibility:visible;transition:none;animation:recs-info-in .55s cubic-bezier(.16,1,.3,1) .12s both}
+@keyframes recs-info-in{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+.recs-info-close{position:absolute;top:16px;right:16px;width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(14,20,20,.16);border-radius:50%;background:#efece1;color:var(--ink);font:500 15px/1 var(--font-mono),monospace;cursor:pointer;transition:background .25s,color .25s,transform .3s}
+.recs-info-close:hover{background:var(--ink);color:var(--paper);transform:rotate(90deg)}
+.recs-info-close:focus-visible{outline:3px solid var(--accent-a35);outline-offset:3px}
+.recs-info-eyebrow{display:flex;align-items:center;gap:7px;font:11px var(--font-mono),monospace;letter-spacing:.16em;text-transform:uppercase;color:#8a908e;margin:0 44px 8px 0}
+/* Brand logo stand-in for the brand name: muted to the eyebrow gray. JPG logos
+   have no alpha, so their white paper blends away via multiply; filters run
+   before the blend, so invert flips white-on-dark art to dark-on-white first. */
+.recs-info-brand{display:block;width:auto;mix-blend-mode:multiply;opacity:.62}
+.recs-info-brand--nike{height:12px;filter:invert(1)}
+.recs-info-brand--acg{height:16px;filter:grayscale(1)}
+.recs-info-brand--adidas{height:30px;margin:-8px 0;filter:grayscale(1);opacity:1}
+.recs-info-brand--newbalance{height:14px}
+.recs-info-brand--salomon{height:10px;filter:invert(1)}
+.recs-info-brand--yeezy{height:10px}
+.recs-info-brand--birkenstock{height:11px}
+.recs-info-name{font-size:29px;font-weight:500;letter-spacing:-.01em;margin:0 36px 10px 0}
+.recs-info-purpose{display:inline-block;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:5px 12px;font:10px var(--font-mono),monospace;letter-spacing:.13em;text-transform:uppercase;margin:0 0 14px}
+.recs-info-rating{display:flex;align-items:baseline;gap:10px;margin:0 0 16px}
+.recs-info-rating-num{font-size:42px;line-height:1}
+.recs-info-rating-den{font:11px var(--font-mono),monospace;letter-spacing:.1em;color:#8a908e}
+.recs-info-rating-bar{display:flex;gap:4px;margin-left:auto;align-self:center}
+.recs-info-rating-bar i{width:11px;height:18px;border:1px solid rgba(14,20,20,.28);border-radius:2px;transform:skewX(-8deg)}
+.recs-info-rating-bar i.is-filled{background:var(--accent);border-color:var(--accent)}
+.recs-info-stats{display:grid;grid-template-columns:1fr 1fr;margin:0 0 14px;border:1px solid rgba(14,20,20,.16);border-radius:16px;overflow:hidden}
+.recs-info-stats>div{padding:11px 14px 12px;border-top:1px solid rgba(14,20,20,.16);border-left:1px solid rgba(14,20,20,.16)}
+.recs-info-stats>div:nth-child(-n+2){border-top:0}
+.recs-info-stats>div:nth-child(odd){border-left:0}
+.recs-info-stats dt{font:10px var(--font-mono),monospace;letter-spacing:.14em;text-transform:uppercase;color:#8a908e;margin:0 0 5px}
+.recs-info-stats dd{margin:0;font:900 20px var(--font-doto),monospace}
+.recs-info-stats dd small{font:400 11px var(--font-mono),monospace;color:#8a908e}
+.recs-info-stat--wide dd{font:500 14px/1.45 var(--font-roboto),Arial,sans-serif}
+.recs-deal{color:var(--accent)}
+.recs-info-review{font-size:15px;line-height:1.6;color:var(--muted);margin:0;padding:14px 16px;background:var(--peach-wash);border-left:3px solid var(--accent);border-radius:0 12px 12px 0}
+@media(max-width:800px){.recs-header{padding:38px 24px 4px}.recs-stage{padding:54px 12px 44px;grid-template-columns:minmax(0,1fr)}.recs-stage--split{perspective-origin:50% 38%}.recs-info{display:none;grid-row:1}.recs-sizer{grid-row:2}.recs-stage--split .recs-info{display:block}.recs-info-card{position:relative;top:0;width:100%;margin:0 0 8px}.recs-info-stats>div.recs-info-stat--wide{grid-column:span 2;border-left:0}}
+@media(prefers-reduced-motion:reduce){.recs-box,.recs-box-inner,.recs-front,.recs-shelf,.recs-shoe,.recs-stage,.recs-sizer{transition:none}.recs-info-card{transition:none;animation:none}}
 .photos-controls{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px 72px 14px;animation:fade-up .7s cubic-bezier(.16,1,.3,1) .2s both}
 .photos-select{position:relative;display:inline-flex;align-items:center;gap:10px}
 .photos-select-label{font:900 11px var(--font-doto),monospace;letter-spacing:.14em;text-transform:uppercase;color:#8a908e}
