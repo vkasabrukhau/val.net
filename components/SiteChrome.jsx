@@ -4,7 +4,7 @@ import GithubIcon from "./GithubIcon";
 
 const links = [
   ["home", "/"], ["experience", "/experience"], ["research", "/research"],
-  ["projects", "/projects"], ["photos", "/photos"], ["writing", "/writing"],
+  ["projects", "/projects"], ["writing", "/writing"],
   ["recs", "/recs"],
 ];
 
