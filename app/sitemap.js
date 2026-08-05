@@ -5,9 +5,7 @@ const routes = [
   ["/experience", 0.9],
   ["/research", 0.9],
   ["/projects", 0.9],
-  ["/writing", 0.8],
   ["/recs", 0.6],
-  ["/writing/whale", 0.5],
 ];
 
 export default function sitemap() {
