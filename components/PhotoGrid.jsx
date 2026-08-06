@@ -7,7 +7,9 @@ import photos from "../data/photos.json";
 // so column balancing accounts for it on top of each image's aspect ratio.
 const FRAME_CHROME = 0.18;
 
-const SOURCES = ["All", "iPhone", "Fujifilm X-M5", "Digital Art", "Drawings"];
+// Filter options come from the manifest itself (folder names / EXIF cameras
+// assigned by scripts/process-photos.mjs), so new sources appear automatically.
+const SOURCES = ["All", ...new Set(photos.map(p => p.source))];
 
 const SORTS = [
   { key: "latest", label: "Latest" },

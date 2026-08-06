@@ -4,7 +4,7 @@ import GithubIcon from "./GithubIcon";
 
 const links = [
   ["home", "/"], ["experience", "/experience"], ["research", "/research"],
-  ["projects", "/projects"], ["recs", "/recs"],
+  ["projects", "/projects"], ["writing", "/writing"], ["photos", "/photos"], ["recs", "/recs"],
 ];
 
 export function Nav({ active }) {

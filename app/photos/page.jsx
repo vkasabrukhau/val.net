@@ -8,10 +8,11 @@ export const metadata = pageMetadata({
   path: "/photos",
 });
 
-export default function Photos() { 
-  return <Page active="photos"><
-    header className="page-header">
-    <h1 className="page-title">
-      Frames I <span className="accent">caught</span>.
-    </h1>
-    </header><PhotoGrid /></Page>; }
+export default function Photos() {
+  return <Page active="photos">
+    <header className="page-header">
+      <h1 className="page-title">Frames I <span className="accent">caught</span>.</h1>
+    </header>
+    <PhotoGrid />
+  </Page>;
+}
