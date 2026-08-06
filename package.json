@@ -10,7 +10,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "shoes": "node scripts/process-shoes.mjs"
+    "shoes": "node scripts/process-shoes.mjs",
+    "photos:process": "node scripts/process-photos.mjs",
+    "prebuild": "node scripts/process-photos.mjs"
   },
   "dependencies": {
     "next": "16.1.6",
