@@ -1,56 +1,137 @@
 [
   {
     "label": "no.01",
-    "src": "/photos/photo-05.webp",
-    "source": "iPhone",
-    "date": "2026-06-19",
-    "width": 650,
-    "height": 350,
-    "rotation": -1.7
+    "src": "/photos/dscf0335.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-28",
+    "width": 1600,
+    "height": 1067,
+    "rotation": -2.3
   },
   {
     "label": "no.02",
-    "src": "/photos/photo-04.webp",
-    "source": "Drawings",
-    "date": "2026-05-08",
-    "width": 695,
-    "height": 407,
-    "rotation": 2.2
+    "src": "/photos/dscf0334.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-28",
+    "width": 1600,
+    "height": 1067,
+    "rotation": 2.3
   },
   {
     "label": "no.03",
-    "src": "/photos/photo-01.webp",
+    "src": "/photos/dscf0324.webp",
     "source": "Fujifilm X-M5",
-    "date": "2026-03-14",
-    "width": 736,
-    "height": 977,
-    "rotation": -2
+    "date": "2026-07-28",
+    "width": 1600,
+    "height": 1067,
+    "rotation": -2.2
   },
   {
     "label": "no.04",
-    "src": "/photos/photo-02.webp",
-    "source": "Digital Art",
-    "date": "2026-01-22",
-    "width": 736,
-    "height": 977,
+    "src": "/photos/dscf0312.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-27",
+    "width": 1600,
+    "height": 1067,
     "rotation": 1.6
   },
   {
     "label": "no.05",
-    "src": "/photos/photo-06.webp",
-    "source": "iPhone",
-    "date": "2025-12-27",
-    "width": 736,
-    "height": 1313,
-    "rotation": -1.6
+    "src": "/photos/dscf0309.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-27",
+    "width": 1600,
+    "height": 1067,
+    "rotation": -2.4
   },
   {
     "label": "no.06",
-    "src": "/photos/photo-03.webp",
+    "src": "/photos/dscf0243.webp",
     "source": "Fujifilm X-M5",
-    "date": "2025-11-02",
-    "width": 626,
-    "height": 340,
-    "rotation": 2
+    "date": "2026-07-25",
+    "width": 1600,
+    "height": 1067,
+    "rotation": 1.7
+  },
+  {
+    "label": "no.07",
+    "src": "/photos/dscf0229.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-25",
+    "width": 1600,
+    "height": 1067,
+    "rotation": -1.3
+  },
+  {
+    "label": "no.08",
+    "src": "/photos/dscf0192.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-25",
+    "width": 1600,
+    "height": 2400,
+    "rotation": 1.7
+  },
+  {
+    "label": "no.09",
+    "src": "/photos/dscf0181.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-25",
+    "width": 1600,
+    "height": 900,
+    "rotation": -2.3
+  },
+  {
+    "label": "no.10",
+    "src": "/photos/dscf0124.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-22",
+    "width": 1600,
+    "height": 2400,
+    "rotation": 1.4
+  },
+  {
+    "label": "no.11",
+    "src": "/photos/dscf0112.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-22",
+    "width": 1600,
+    "height": 2400,
+    "rotation": -1.4
+  },
+  {
+    "label": "no.12",
+    "src": "/photos/dscf0096.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-22",
+    "width": 1600,
+    "height": 900,
+    "rotation": 2.2
+  },
+  {
+    "label": "no.13",
+    "src": "/photos/dscf0068.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-22",
+    "width": 1600,
+    "height": 2400,
+    "rotation": -2
+  },
+  {
+    "label": "no.14",
+    "src": "/photos/dscf0026.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-21",
+    "width": 1600,
+    "height": 900,
+    "rotation": 1.5
+  },
+  {
+    "label": "no.15",
+    "src": "/photos/dscf0022-2.webp",
+    "source": "Fujifilm X-M5",
+    "date": "2026-07-21",
+    "width": 1600,
+    "height": 1067,
+    "rotation": -2
   }
 ]
