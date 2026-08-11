@@ -1,5 +1,6 @@
 import { SITE_URL } from "./site";
 import { getPosts } from "../lib/content";
+import photos from "../data/photos.json";
 
 const routes = [
   ["", 1],
@@ -25,5 +26,11 @@ export default function sitemap() {
     changeFrequency: "yearly",
     priority: 0.7,
   }));
-  return [...pages, ...posts];
+  const frames = photos.map(({ slug, date }) => ({
+    url: `${SITE_URL}/photos/${slug}`,
+    lastModified: date ? new Date(date) : lastModified,
+    changeFrequency: "yearly",
+    priority: 0.4,
+  }));
+  return [...pages, ...posts, ...frames];
 }

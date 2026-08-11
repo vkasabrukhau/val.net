@@ -5,16 +5,18 @@
 //   1. reads EXIF (capture date + camera model) straight from the file,
 //   2. preserves the untouched original in content/photos/_originals/
 //      before downsizing any oversized vault copy in place (keeps git lean),
-//   3. emits a web-sized WebP into public/photos/,
+//   3. emits a web-sized WebP into public/photos/ plus a download-grade
+//      full-resolution JPEG into public/photos/full/ (EXIF stripped),
 //   4. rebuilds data/photos.json in the shape PhotoGrid expects.
 // Runs via `npm run photos:process` and automatically on every build.
 import sharp from 'sharp';
-import { readdir, stat, copyFile, writeFile, mkdir, access, unlink } from 'fs/promises';
+import { readdir, stat, copyFile, readFile, writeFile, mkdir, access, unlink } from 'fs/promises';
 import { join, parse } from 'path';
 
 const VAULT = 'content/photos';
 const ORIGINALS = join(VAULT, '_originals');
 const OUT = 'public/photos';
+const OUT_FULL = join(OUT, 'full');
 const MANIFEST = 'data/photos.json';
 const VAULT_MAX_WIDTH = 2560; // master kept in the vault / git
 const WEB_MAX_WIDTH = 1600;   // what actually ships
@@ -87,6 +89,7 @@ const exists = path => access(path).then(() => true, () => false);
 
 await mkdir(ORIGINALS, { recursive: true });
 await mkdir(OUT, { recursive: true });
+await mkdir(OUT_FULL, { recursive: true });
 
 // Collect vault images: root files (source from EXIF) and one level of
 // subfolders whose name is used verbatim as the source label.
@@ -101,11 +104,24 @@ for (const entry of await readdir(VAULT, { withFileTypes: true })) {
   }
 }
 
+// Downsizing the vault copy strips its EXIF, so later runs can't re-read the
+// capture date from it. Fall back to the untouched original (local only), then
+// to the last manifest — mtime is a last resort (on fresh checkouts it is just
+// clone time, which would silently re-date every photo).
+let previous = {};
+try {
+  previous = Object.fromEntries(JSON.parse(await readFile(MANIFEST, 'utf8')).map(p => [p.src, p]));
+} catch {}
+
 const manifest = [];
 const slugs = new Set();
 for (const job of jobs) {
   const meta = await sharp(job.path).metadata();
-  const exif = parseExif(meta.exif);
+  let exif = parseExif(meta.exif);
+  if (!exif.taken && (await exists(join(ORIGINALS, job.name)))) {
+    const original = parseExif((await sharp(join(ORIGINALS, job.name)).metadata()).exif);
+    exif = { model: exif.model || original.model, taken: original.taken };
+  }
   const stats = await stat(job.path);
 
   let slug = slugify(job.name);
@@ -133,22 +149,34 @@ for (const job of jobs) {
     .toBuffer({ resolveWithObject: true });
   await writeFile(join(OUT, `${slug}.webp`), data);
 
+  // Download-grade copy at the vault master's full width. Re-encoding (rather
+  // than copying the vault file) strips EXIF — location data must not ship.
+  const { data: fullData, info: fullInfo } = await sharp(job.path)
+    .rotate()
+    .jpeg({ quality: 92, mozjpeg: true })
+    .toBuffer({ resolveWithObject: true });
+  await writeFile(join(OUT_FULL, `${slug}.jpg`), fullData);
+
   manifest.push({
     src: `/photos/${slug}.webp`,
     slug,
     source: job.source || sourceFromModel(exif.model),
-    date: dateFromExif(exif.taken) || stats.mtime.toISOString().slice(0, 10),
+    date: dateFromExif(exif.taken) || previous[`/photos/${slug}.webp`]?.date || stats.mtime.toISOString().slice(0, 10),
     width: info.width,
     height: info.height,
+    full: `/photos/full/${slug}.jpg`,
+    fullWidth: fullInfo.width,
+    fullHeight: fullInfo.height,
+    fullBytes: fullData.length,
   });
 }
 
 // Newest first; labels follow that order.
 manifest.sort((a, b) => (a.date < b.date ? 1 : -1));
-const photos = manifest.map(({ slug, ...photo }, i) => ({
+const photos = manifest.map((photo, i) => ({
   label: `no.${String(i + 1).padStart(2, '0')}`,
   ...photo,
-  rotation: Number(((i % 2 ? 1 : -1) * magnitudeFor(slug)).toFixed(1)),
+  rotation: Number(((i % 2 ? 1 : -1) * magnitudeFor(photo.slug)).toFixed(1)),
 }));
 await writeFile(MANIFEST, `${JSON.stringify(photos, null, 2)}\n`);
 
@@ -157,6 +185,12 @@ for (const file of await readdir(OUT)) {
   if (file.endsWith('.webp') && !slugs.has(file.replace(/\.webp$/, ''))) {
     await unlink(join(OUT, file));
     console.log(`Pruned orphan ${file}`);
+  }
+}
+for (const file of await readdir(OUT_FULL)) {
+  if (file.endsWith('.jpg') && !slugs.has(file.replace(/\.jpg$/, ''))) {
+    await unlink(join(OUT_FULL, file));
+    console.log(`Pruned orphan full/${file}`);
   }
 }
 

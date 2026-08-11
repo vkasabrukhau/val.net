@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import photos from "../data/photos.json";
 
@@ -80,16 +81,18 @@ export default function PhotoGrid() {
       ? <p className="photos-empty">nothing here yet.</p>
       : <section className="photos-grid">{columns.map((column, index) => (
           <div className="photos-col" key={index}>{column.map(photo => (
-            <div
+            <Link
               className="photo-frame"
               style={{ transform: `rotate(${photo.rotation ?? 0}deg)` }}
               key={photo.label}
+              href={`/photos/${photo.slug}`}
+              aria-label={`Open ${photo.label} in full resolution`}
             >
               <div className="photo-slot">
                 <img src={photo.src} alt={`${photo.label} photograph`} width={photo.width} height={photo.height} loading="lazy" />
               </div>
               <div className="photo-caption"><b>{photo.label}</b><small>{caption(photo)}</small></div>
-            </div>
+            </Link>
           ))}</div>
         ))}</section>}
   </>;
