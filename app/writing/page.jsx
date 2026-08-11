@@ -19,7 +19,7 @@ export default function Writing() {
       <p className="page-intro">Essays, half-theories, and things I couldn’t fit in a commit message. Thoughts are quick sparks; ramblings take the scenic route.</p>
     </header>
     <section className="writing-list">
-      {posts.length === 0 && <p className="photos-empty">nothing here yet.</p>}
+      {posts.length === 0 && <p className="photos-empty">thoughts are still brewing.</p>}
       {posts.map(({ slug, title, excerpt, date, minutes, type }) => <TiltCard as="a" href={`/writing/${slug}`} className={`post-card post-card--${type}`} key={slug} strength={3.5}>
         <div className="post-meta"><span className="post-date">{shortDate(date)}</span></div>
         <span><h2>{title}</h2><p>{excerpt}</p></span>
