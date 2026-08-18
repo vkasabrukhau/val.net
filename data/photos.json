@@ -1,6 +1,48 @@
 [
   {
     "label": "no.01",
+    "src": "/photos/dscf0388.webp",
+    "slug": "dscf0388",
+    "source": "Fujifilm X-M5",
+    "date": "2026-08-12",
+    "width": 1600,
+    "height": 2400,
+    "full": "/photos/full/dscf0388.jpg",
+    "fullWidth": 2560,
+    "fullHeight": 3840,
+    "fullBytes": 1685728,
+    "rotation": -1.9
+  },
+  {
+    "label": "no.02",
+    "src": "/photos/dscf0387.webp",
+    "slug": "dscf0387",
+    "source": "Fujifilm X-M5",
+    "date": "2026-08-12",
+    "width": 1600,
+    "height": 2400,
+    "full": "/photos/full/dscf0387.jpg",
+    "fullWidth": 2560,
+    "fullHeight": 3840,
+    "fullBytes": 1504120,
+    "rotation": 1.6
+  },
+  {
+    "label": "no.03",
+    "src": "/photos/dscf0364.webp",
+    "slug": "dscf0364",
+    "source": "Fujifilm X-M5",
+    "date": "2026-08-12",
+    "width": 1600,
+    "height": 1067,
+    "full": "/photos/full/dscf0364.jpg",
+    "fullWidth": 2560,
+    "fullHeight": 1707,
+    "fullBytes": 968854,
+    "rotation": -2.4
+  },
+  {
+    "label": "no.04",
     "src": "/photos/dscf0335.webp",
     "slug": "dscf0335",
     "source": "Fujifilm X-M5",
@@ -11,10 +53,10 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 409972,
-    "rotation": -2.3
+    "rotation": 2.3
   },
   {
-    "label": "no.02",
+    "label": "no.05",
     "src": "/photos/dscf0334.webp",
     "slug": "dscf0334",
     "source": "Fujifilm X-M5",
@@ -25,10 +67,10 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 904668,
-    "rotation": 2.3
+    "rotation": -2.3
   },
   {
-    "label": "no.03",
+    "label": "no.06",
     "src": "/photos/dscf0324.webp",
     "slug": "dscf0324",
     "source": "Fujifilm X-M5",
@@ -39,10 +81,10 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 802632,
-    "rotation": -2.2
+    "rotation": 2.2
   },
   {
-    "label": "no.04",
+    "label": "no.07",
     "src": "/photos/dscf0312.webp",
     "slug": "dscf0312",
     "source": "Fujifilm X-M5",
@@ -53,10 +95,10 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 967439,
-    "rotation": 1.6
+    "rotation": -1.6
   },
   {
-    "label": "no.05",
+    "label": "no.08",
     "src": "/photos/dscf0309.webp",
     "slug": "dscf0309",
     "source": "Fujifilm X-M5",
@@ -67,10 +109,10 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 927705,
-    "rotation": -2.4
+    "rotation": 2.4
   },
   {
-    "label": "no.06",
+    "label": "no.09",
     "src": "/photos/dscf0243.webp",
     "slug": "dscf0243",
     "source": "Fujifilm X-M5",
@@ -81,10 +123,10 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 546193,
-    "rotation": 1.7
+    "rotation": -1.7
   },
   {
-    "label": "no.07",
+    "label": "no.10",
     "src": "/photos/dscf0229.webp",
     "slug": "dscf0229",
     "source": "Fujifilm X-M5",
@@ -95,10 +137,10 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 214303,
-    "rotation": -1.3
+    "rotation": 1.3
   },
   {
-    "label": "no.08",
+    "label": "no.11",
     "src": "/photos/dscf0192.webp",
     "slug": "dscf0192",
     "source": "Fujifilm X-M5",
@@ -109,10 +151,10 @@
     "fullWidth": 2560,
     "fullHeight": 3840,
     "fullBytes": 844010,
-    "rotation": 1.7
+    "rotation": -1.7
   },
   {
-    "label": "no.09",
+    "label": "no.12",
     "src": "/photos/dscf0181.webp",
     "slug": "dscf0181",
     "source": "Fujifilm X-M5",
@@ -123,10 +165,10 @@
     "fullWidth": 2560,
     "fullHeight": 1440,
     "fullBytes": 364023,
-    "rotation": -2.3
+    "rotation": 2.3
   },
   {
-    "label": "no.10",
+    "label": "no.13",
     "src": "/photos/dscf0124.webp",
     "slug": "dscf0124",
     "source": "Fujifilm X-M5",
@@ -137,10 +179,10 @@
     "fullWidth": 2560,
     "fullHeight": 3840,
     "fullBytes": 2697323,
-    "rotation": 1.4
+    "rotation": -1.4
   },
   {
-    "label": "no.11",
+    "label": "no.14",
     "src": "/photos/dscf0112.webp",
     "slug": "dscf0112",
     "source": "Fujifilm X-M5",
@@ -151,10 +193,10 @@
     "fullWidth": 2560,
     "fullHeight": 3840,
     "fullBytes": 1802754,
-    "rotation": -1.4
+    "rotation": 1.4
   },
   {
-    "label": "no.12",
+    "label": "no.15",
     "src": "/photos/dscf0096.webp",
     "slug": "dscf0096",
     "source": "Fujifilm X-M5",
@@ -165,10 +207,10 @@
     "fullWidth": 2560,
     "fullHeight": 1440,
     "fullBytes": 760550,
-    "rotation": 2.2
+    "rotation": -2.2
   },
   {
-    "label": "no.13",
+    "label": "no.16",
     "src": "/photos/dscf0068.webp",
     "slug": "dscf0068",
     "source": "Fujifilm X-M5",
@@ -179,10 +221,10 @@
     "fullWidth": 2560,
     "fullHeight": 3840,
     "fullBytes": 1744591,
-    "rotation": -2
+    "rotation": 2
   },
   {
-    "label": "no.14",
+    "label": "no.17",
     "src": "/photos/dscf0026.webp",
     "slug": "dscf0026",
     "source": "Fujifilm X-M5",
@@ -193,10 +235,10 @@
     "fullWidth": 2560,
     "fullHeight": 1440,
     "fullBytes": 163941,
-    "rotation": 1.5
+    "rotation": -1.5
   },
   {
-    "label": "no.15",
+    "label": "no.18",
     "src": "/photos/dscf0022-2.webp",
     "slug": "dscf0022-2",
     "source": "Fujifilm X-M5",
@@ -207,6 +249,6 @@
     "fullWidth": 2560,
     "fullHeight": 1707,
     "fullBytes": 458445,
-    "rotation": -2
+    "rotation": 2
   }
 ]
