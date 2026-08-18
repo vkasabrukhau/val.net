@@ -26,6 +26,23 @@ const COMPARATORS = {
   "res-asc": (a, b) => a.width * a.height - b.width * b.height,
 };
 
+// Each frame gets a stable pseudo-random pose from its slug (not Math.random,
+// which would mismatch between server and client renders): the manifest's
+// alternating tilt scaled up, a wobble so tilts aren't uniform, and an x/y
+// offset so frames sit off the column axis like a hand-scattered pile.
+function pose(photo) {
+  let h = 2166136261;
+  for (const c of photo.slug) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); }
+  const next = () => {
+    h = Math.imul(h ^ (h >>> 13), 0x5bd1e995);
+    return (((h >>> 0) % 1000) / 999) * 2 - 1; // -1..1
+  };
+  const rotate = (photo.rotation ?? 0) * 1.8 + next() * 0.8;
+  const x = next() * 12;
+  const y = next() * 10;
+  return `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${rotate.toFixed(1)}deg)`;
+}
+
 function caption(photo) {
   const date = new Date(`${photo.date}T00:00:00`)
     .toLocaleDateString("en-US", { month: "short", year: "numeric" })
@@ -83,7 +100,7 @@ export default function PhotoGrid() {
           <div className="photos-col" key={index}>{column.map(photo => (
             <Link
               className="photo-frame"
-              style={{ transform: `rotate(${photo.rotation ?? 0}deg)` }}
+              style={{ transform: pose(photo) }}
               key={photo.label}
               href={`/photos/${photo.slug}`}
               aria-label={`Open ${photo.label} in full resolution`}
