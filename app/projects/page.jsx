@@ -6,7 +6,7 @@ import { pageMetadata } from "../site";
 
 export const metadata = pageMetadata({
   title: "Projects",
-  description: "Things Val Kasabrukhau is building — Noted, a social note-taking platform for students, Healthly, Jarvis, a smart mirror LLM integration, Brickonomics, and other late-night side projects.",
+  description: "Things Val Kasabrukhau is building — Noted, a social note-taking platform for students, Healthly, Jarvis, a smart mirror LLM integration, Brickonomics, Vroom, a car-shopping optimizer, and other late-night side projects.",
   path: "/projects",
 });
 
@@ -48,6 +48,39 @@ export default function Projects() {
             })}
             <svg className={styles.stockLine} viewBox="0 0 328 150"><polyline points="17,92 59,108 101,76 143,92 185,60 227,76 269,44 311,28" /><circle cx="311" cy="28" r="5" /></svg>
           </div>
+        </div>
+      </TiltCard>
+      <TiltCard className="project" strength={4}>
+        <div className="project-body"><div className="eyebrow">05 · PLATFORM · AGGREGATION + OPTIMIZATION</div><h2>vroom</h2><p>A car-shopping platform that pulls existing listings from across the internet into one lot, then weighs every candidate against your income, location, insurance rates, parts, and options to surface what actually fits your situation — not the average buyer&rsquo;s. New-car smell, spreadsheet brain.</p></div>
+        <div className="project-art">
+          <div className={styles.vroomScene} aria-hidden="true">
+            <div className={styles.feedFrame}>
+              <span className={styles.feedBar} />
+              <span className={`${styles.feedRow} ${styles.feedRowOne}`}><span className={styles.rowThumb} /><span className={styles.rowLines} /><span className={styles.rowPrice}>$</span></span>
+              <span className={`${styles.feedRow} ${styles.feedRowTwo}`}><span className={styles.rowThumb} /><span className={styles.rowLines} /><span className={`${styles.rowPrice} ${styles.rowPriceWin}`}>$</span></span>
+              <span className={`${styles.feedRow} ${styles.feedRowThree}`}><span className={styles.rowThumb} /><span className={styles.rowLines} /><span className={styles.rowPrice}>$</span></span>
+            </div>
+            <div className={styles.vroomPath}><span className={styles.vroomPacket} /></div>
+            <div className={styles.gaugeWrap}>
+              <svg className={styles.gauge} viewBox="0 0 120 72">
+                <path className={styles.gaugeTrack} d="M14 62 A46 46 0 0 1 106 62" />
+                <line className={styles.gaugeTick} x1="33.1" y1="35.1" x2="28.2" y2="30.2" />
+                <line className={styles.gaugeTick} x1="60" y1="24" x2="60" y2="17" />
+                <line className={styles.gaugeTick} x1="86.9" y1="35.1" x2="91.8" y2="30.2" />
+                <path className={styles.gaugeFill} d="M14 62 A46 46 0 0 1 106 62" />
+                <line className={styles.gaugeNeedle} x1="60" y1="62" x2="60" y2="26" />
+                <circle className={styles.gaugeHub} cx="60" cy="62" r="4.5" />
+              </svg>
+              <span className={styles.gaugeTag}>match ✓</span>
+            </div>
+            <span className={styles.vroomCar}>
+              <span className={styles.carShell} />
+              <span className={styles.carWheel} />
+              <span className={styles.carWheel} />
+              <span className={styles.speedLines} />
+            </span>
+          </div>
+          <div className={`project-art-label ${styles.vroomLabel}`}>every car <span className={styles.vroomAccent}>→</span> your car</div>
         </div>
       </TiltCard>
       <a className="more-repos" href="https://github.com/vkasabrukhau?tab=repositories" target="_blank" rel="noreferrer"><span>39 more repos of varying dignity — stock predictors, scrapers, classifiers…</span><GithubIcon className="more-repos-github" /></a>

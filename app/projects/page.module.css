@@ -338,6 +338,330 @@ h2.brickTitle {
   font-size: clamp(30px, 10vw, 54px);
 }
 
+/* vroom — one 7.5s cycle: three listings load into the feed, each fires a
+   packet across the wire that bumps the fit gauge, the needle pegs on the
+   third, the winning row lights up, and a little car peels out of the lot */
+.vroomScene {
+  align-items: center;
+  display: flex;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.feedFrame {
+  background: linear-gradient(115deg, rgba(251, 250, 243, .14), rgba(251, 250, 243, .02) 45%, rgba(251, 250, 243, .08));
+  border: 1.5px solid rgba(251, 250, 243, .7);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 10px;
+  width: 122px;
+}
+
+.feedBar {
+  background: rgba(251, 250, 243, .3);
+  border-radius: 3px;
+  height: 5px;
+  margin-bottom: 2px;
+  width: 58%;
+}
+
+.feedRow {
+  align-items: center;
+  background-color: rgba(251, 250, 243, .13);
+  border-radius: 7px;
+  display: flex;
+  gap: 6px;
+  height: 26px;
+  opacity: 0;
+  padding: 0 7px;
+}
+
+.feedRowOne { animation: row-one 7.5s ease infinite; }
+
+.feedRowTwo { animation: row-two 7.5s ease infinite; }
+
+.feedRowThree { animation: row-three 7.5s ease infinite; }
+
+.rowThumb {
+  background: rgba(251, 250, 243, .38);
+  border-radius: 4px;
+  flex: none;
+  height: 14px;
+  width: 14px;
+}
+
+.rowLines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.rowLines::before,
+.rowLines::after {
+  background: rgba(251, 250, 243, .5);
+  border-radius: 2px;
+  content: "";
+  height: 3px;
+}
+
+.rowLines::before { width: 82%; }
+
+.rowLines::after {
+  background: rgba(251, 250, 243, .32);
+  width: 52%;
+}
+
+.rowPrice {
+  color: rgba(251, 250, 243, .75);
+  flex: none;
+  font: 700 9px var(--font-mono), monospace;
+}
+
+.rowPriceWin { animation: price-win 7.5s ease infinite; }
+
+.vroomPath {
+  border-top: 2px dashed rgba(251, 250, 243, .3);
+  position: relative;
+  width: 48px;
+}
+
+.vroomPacket {
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px var(--accent-a35);
+  height: 8px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: -5px;
+  width: 8px;
+  animation: listing-run 7.5s ease-in-out infinite;
+}
+
+.gaugeWrap {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gauge {
+  display: block;
+  height: 72px;
+  width: 120px;
+}
+
+.gaugeTrack {
+  fill: none;
+  stroke: rgba(251, 250, 243, .22);
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.gaugeTick {
+  stroke: rgba(251, 250, 243, .45);
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.gaugeFill {
+  fill: none;
+  filter: drop-shadow(0 0 5px var(--accent-a35));
+  stroke: var(--accent);
+  stroke-dasharray: 145;
+  stroke-dashoffset: 145;
+  stroke-linecap: round;
+  stroke-width: 3;
+  animation: gauge-fill 7.5s ease infinite;
+}
+
+.gaugeNeedle {
+  stroke: var(--paper);
+  stroke-linecap: round;
+  stroke-width: 2.5;
+  transform: rotate(-84deg);
+  transform-origin: 60px 62px;
+  animation: needle-sweep 7.5s ease infinite;
+}
+
+.gaugeHub {
+  fill: var(--paper);
+}
+
+.gaugeTag {
+  color: var(--accent);
+  font: 700 9px var(--font-mono), monospace;
+  letter-spacing: .14em;
+  opacity: 0;
+  text-transform: uppercase;
+  animation: tag-pop 7.5s cubic-bezier(.34, 1.56, .64, 1) infinite;
+}
+
+.vroomCar {
+  height: 14px;
+  left: -64px;
+  opacity: 0;
+  position: absolute;
+  top: calc(100% + 10px);
+  width: 44px;
+  animation: car-drive 7.5s linear infinite;
+}
+
+.carShell {
+  background: var(--accent);
+  border-radius: 4px 8px 3px 3px;
+  bottom: 3px;
+  height: 10px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  animation: car-bounce .32s ease-in-out infinite alternate;
+}
+
+.carShell::before {
+  background: var(--accent);
+  border-radius: 4px 7px 0 0;
+  content: "";
+  height: 7px;
+  left: 9px;
+  position: absolute;
+  top: -6px;
+  width: 19px;
+}
+
+.carShell::after {
+  background: var(--ink);
+  border-radius: 1.5px;
+  box-shadow: 8px 0 0 var(--ink);
+  content: "";
+  height: 4px;
+  left: 12px;
+  position: absolute;
+  top: -4px;
+  width: 6px;
+}
+
+.carWheel {
+  background: var(--ink);
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  bottom: -2px;
+  height: 8px;
+  position: absolute;
+  width: 8px;
+}
+
+.carWheel:nth-child(2) { left: 5px; }
+
+.carWheel:nth-child(3) { right: 6px; }
+
+.speedLines {
+  background: rgba(251, 250, 243, .7);
+  border-radius: 2px;
+  box-shadow: -6px -5px 0 rgba(251, 250, 243, .45), -10px 4px 0 rgba(251, 250, 243, .35);
+  height: 2px;
+  left: -16px;
+  position: absolute;
+  top: 6px;
+  width: 10px;
+}
+
+.vroomLabel {
+  bottom: 26px;
+  position: absolute;
+}
+
+.vroomAccent {
+  color: var(--accent);
+}
+
+@keyframes row-one {
+  0%, 2% { opacity: 0; transform: translateX(-12px); }
+  6% { opacity: 1; transform: translateX(0); }
+  56% { opacity: 1; }
+  60%, 92% { opacity: .4; }
+  98%, 100% { opacity: 0; }
+}
+
+@keyframes row-two {
+  0%, 17% { opacity: 0; transform: translateX(-12px); }
+  21% { opacity: 1; transform: translateX(0); }
+  56% { background-color: rgba(251, 250, 243, .13); box-shadow: 0 0 0 0 rgba(247, 127, 0, 0); opacity: 1; }
+  60%, 92% { background-color: var(--accent-a16); box-shadow: 0 0 0 1.5px var(--accent); opacity: 1; }
+  98%, 100% { opacity: 0; }
+}
+
+@keyframes row-three {
+  0%, 32% { opacity: 0; transform: translateX(-12px); }
+  36% { opacity: 1; transform: translateX(0); }
+  56% { opacity: 1; }
+  60%, 92% { opacity: .4; }
+  98%, 100% { opacity: 0; }
+}
+
+@keyframes price-win {
+  0%, 56% { color: rgba(251, 250, 243, .75); }
+  60%, 100% { color: var(--accent); }
+}
+
+@keyframes listing-run {
+  0%, 9% { opacity: 0; transform: translateX(0); }
+  10.5% { opacity: 1; }
+  14% { opacity: 1; transform: translateX(40px); }
+  15%, 16% { opacity: 0; transform: translateX(40px); }
+  17%, 24% { opacity: 0; transform: translateX(0); }
+  25.5% { opacity: 1; }
+  29% { opacity: 1; transform: translateX(40px); }
+  30%, 31% { opacity: 0; transform: translateX(40px); }
+  32%, 39% { opacity: 0; transform: translateX(0); }
+  40.5% { opacity: 1; }
+  44% { opacity: 1; transform: translateX(40px); }
+  45%, 100% { opacity: 0; transform: translateX(40px); }
+}
+
+@keyframes needle-sweep {
+  0%, 14% { transform: rotate(-84deg); }
+  19% { transform: rotate(-34deg); }
+  23%, 29% { transform: rotate(-44deg); }
+  34% { transform: rotate(-2deg); }
+  38%, 44% { transform: rotate(-12deg); }
+  49% { transform: rotate(71deg); }
+  53%, 92% { transform: rotate(62deg); }
+  100% { transform: rotate(-84deg); }
+}
+
+@keyframes gauge-fill {
+  0%, 14% { stroke-dashoffset: 145; }
+  19%, 29% { stroke-dashoffset: 104; }
+  34%, 44% { stroke-dashoffset: 72; }
+  50%, 92% { stroke-dashoffset: 14; }
+  100% { stroke-dashoffset: 145; }
+}
+
+@keyframes tag-pop {
+  0%, 52% { opacity: 0; transform: scale(.4); }
+  57% { opacity: 1; transform: scale(1.15); }
+  61% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+
+@keyframes car-drive {
+  0%, 63% { opacity: 0; transform: translateX(0); animation-timing-function: cubic-bezier(.5, .05, .6, .95); }
+  65% { opacity: 1; }
+  86% { opacity: 1; transform: translateX(500px); }
+  88%, 100% { opacity: 0; transform: translateX(500px); }
+}
+
+@keyframes car-bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-1.5px); }
+}
+
 @keyframes mirror-scan {
   0% { opacity: 0; transform: translateY(8px); }
   5% { opacity: 1; }
@@ -466,5 +790,53 @@ h2.brickTitle {
   .stockLine circle {
     animation: none;
     opacity: 1;
+  }
+
+  .feedRowOne,
+  .feedRowThree {
+    animation: none;
+    opacity: .4;
+  }
+
+  .feedRowTwo {
+    animation: none;
+    background-color: var(--accent-a16);
+    box-shadow: 0 0 0 1.5px var(--accent);
+    opacity: 1;
+  }
+
+  .rowPriceWin {
+    animation: none;
+    color: var(--accent);
+  }
+
+  .vroomPacket {
+    animation: none;
+    opacity: 0;
+  }
+
+  .gaugeNeedle {
+    animation: none;
+    transform: rotate(62deg);
+  }
+
+  .gaugeFill {
+    animation: none;
+    stroke-dashoffset: 14;
+  }
+
+  .gaugeTag {
+    animation: none;
+    opacity: 1;
+  }
+
+  .vroomCar {
+    animation: none;
+    opacity: 1;
+    transform: translateX(280px);
+  }
+
+  .carShell {
+    animation: none;
   }
 }
