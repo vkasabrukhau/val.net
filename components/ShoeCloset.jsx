@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import shoes from "../data/shoes.json";
 import shoeImages from "../data/shoe-images.json";
 import { AdidasSizeLabel, NikeSizeLabel } from "./ShoeSizeLabels";
@@ -162,7 +162,7 @@ export default function ShoeCloset() {
   // animates every moved box across the difference. offsetLeft/Top ignore
   // transforms, so the deltas live in unscaled shelf space and compose with
   // the shelf's own scale transition.
-  function snapshot() {
+  const snapshot = useCallback(() => {
     const shelf = shelfRef.current;
     const map = flipRef.current;
     map.clear();
@@ -173,7 +173,7 @@ export default function ShoeCloset() {
     // and would miss that container jump.
     map.set("__shelf", { x: shelf.offsetLeft, y: shelf.offsetTop });
     for (const el of shelf.children) map.set(el.dataset.tag, { x: el.offsetLeft, y: el.offsetTop });
-  }
+  }, []);
 
   function playFlip() {
     const shelf = shelfRef.current;
@@ -221,10 +221,10 @@ export default function ShoeCloset() {
     return () => window.removeEventListener("resize", onResize);
   }, [category, open]);
 
-  const close = () => {
+  const close = useCallback(() => {
     snapshot();
     setOpen(false);
-  };
+  }, [snapshot]);
 
   useEffect(() => {
     if (!open) return;
