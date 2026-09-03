@@ -221,6 +221,11 @@ export default function ShoeCloset() {
     return () => window.removeEventListener("resize", onResize);
   }, [category, open]);
 
+  const close = () => {
+    snapshot();
+    setOpen(false);
+  };
+
   useEffect(() => {
     if (!open) return;
     const onKey = event => {
@@ -228,7 +233,7 @@ export default function ShoeCloset() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, close]);
 
   // After an open or featured swap, bring the box and the full info card into
   // view: the top of the page when everything fits the viewport, otherwise
@@ -245,11 +250,6 @@ export default function ShoeCloset() {
     const target = Math.max(0, Math.min(asideTop + cardHeight + 24 - window.innerHeight, asideTop - 28));
     window.scrollTo({ top: target, behavior: reducedRef.current ? "auto" : "smooth" });
   }, [open, active]);
-
-  function close() {
-    snapshot();
-    setOpen(false);
-  }
 
   // The tilted, perspective-projected boxes render offset from their flat DOM
   // hit rects (lower rows drift furthest), so the shelf ignores pointer events

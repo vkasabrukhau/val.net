@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 /* ============================================================================
    SHOE BOX SIZE LABELS  —  adidas Originals + Nike
@@ -252,34 +252,41 @@ function RfidMark({ size = "5.2em", color = "#fff", ink = "#000" }) {
    code always renders the same pattern. Swap in a real encoder (qrcode.react,
    qrcode-generator) if it needs to actually scan.
    --------------------------------------------------------------------------- */
+const N = 21;
+
+const inFinder = (r, c) =>
+  (r < 7 && c < 7) || (r < 7 && c >= N - 7) || (r >= N - 7 && c < 7);
+
 function QrBlock({ seed = "", size = "9.4em", color = "#000", background = "#fff" }) {
-  const N = 21;
-  let h = 2166136261;
-  for (let i = 0; i < String(seed).length; i++) {
-    h ^= String(seed).charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  const rand = () => {
-    h ^= h << 13; h >>>= 0;
-    h ^= h >> 17;
-    h ^= h << 5; h >>>= 0;
-    return h / 4294967296;
-  };
-
-  const inFinder = (r, c) =>
-    (r < 7 && c < 7) || (r < 7 && c >= N - 7) || (r >= N - 7 && c < 7);
-
-  const cells = [];
-  for (let r = 0; r < N; r++) {
-    for (let c = 0; c < N; c++) {
-      if (inFinder(r, c)) continue;
-      if (r === 6 || c === 6) {
-        if ((r + c) % 2 === 0) cells.push([r, c]);
-        continue;
-      }
-      if (rand() > 0.52) cells.push([r, c]);
+  const cells = useMemo(() => {
+    let h = 2166136261;
+    for (let i = 0; i < String(seed).length; i++) {
+      h ^= String(seed).charCodeAt(i);
+      h = Math.imul(h, 16777619);
     }
-  }
+    // xorshift step: takes the current state, returns the next. The caller
+    // threads `h` through explicitly so no closure mutates render-scope state.
+    const rand = s => {
+      s ^= s << 13; s >>>= 0;
+      s ^= s >> 17;
+      s ^= s << 5; s >>>= 0;
+      return s;
+    };
+
+    const out = [];
+    for (let r = 0; r < N; r++) {
+      for (let c = 0; c < N; c++) {
+        if (inFinder(r, c)) continue;
+        if (r === 6 || c === 6) {
+          if ((r + c) % 2 === 0) out.push([r, c]);
+          continue;
+        }
+        h = rand(h);
+        if (h / 4294967296 > 0.52) out.push([r, c]);
+      }
+    }
+    return out;
+  }, [seed]);
 
   const finder = (r, c) => (
     <g key={`f${r}${c}`}>
